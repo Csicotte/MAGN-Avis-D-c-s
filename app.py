@@ -151,7 +151,6 @@ def main():
         name = st.text_input("Nom complet du sujet")
         age = st.number_input("Âge", min_value=0, max_value=120)
         date_of_death = st.date_input("Date du décès")
-        location = st.text_input("Lieu de résidence")
         children = st.number_input("Nombre d'enfants", min_value=0)
         grandchildren = st.number_input("Nombre de petits-enfants", min_value=0)
         interests = st.text_area("Intérêts et passions")
@@ -165,7 +164,6 @@ def main():
             'name': name,
             'age': age,
             'date_of_death': date_of_death.strftime("%d/%m/%Y"),
-            'location': location,
             'children': children,
             'grandchildren': grandchildren,
             'interests': interests,

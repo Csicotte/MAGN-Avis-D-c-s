@@ -14,7 +14,6 @@ class ClaudeAPI:
         Nom: {info_dict['name']}
         Age: {info_dict['age']} ans
         Date de décès: {info_dict['date_of_death']}
-        Lieu: {info_dict['location']}
         Enfants: {info_dict['children']}
         Petits-enfants: {info_dict['grandchildren']}
         Intérêts/Passions: {info_dict['interests']}
