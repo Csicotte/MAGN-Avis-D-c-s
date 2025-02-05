@@ -82,6 +82,28 @@ def check_password():
     
     return True
 
+def clear_session_state():
+    """Clear all relevant session state variables"""
+    keys_to_clear = [
+        'info_dict', 
+        'original_obituary', 
+        'edited_obituary', 
+        'translations', 
+        'audio_files'
+    ]
+    for key in keys_to_clear:
+        if key in st.session_state:
+            del st.session_state[key]
+    
+    # Clean up audio files
+    if 'temp_audio_files' in st.session_state:
+        for temp_file in st.session_state.temp_audio_files:
+            try:
+                if os.path.exists(temp_file):
+                    os.remove(temp_file)
+            except Exception:
+                pass
+        st.session_state.temp_audio_files = []
 
 # Initialize APIs
 @st.cache_resource
@@ -98,8 +120,13 @@ def main():
         st.session_state["password_correct"] = False
         st.rerun()
         
+    
 
     st.title("Avis de décès")
+
+    if st.button("Rafraîchir"):
+            clear_session_state()
+            st.rerun()
 
     # Initialize APIs
     claude_api, translator, elevenlabs_api = initialize_apis()
@@ -150,6 +177,7 @@ def main():
         with st.spinner("Génération de l'avis de décès..."):
             st.session_state.original_obituary = claude_api.generate_obituary(st.session_state.info_dict)
             st.session_state.edited_obituary = st.session_state.original_obituary
+            st.session_state.translations = {}
 
     # Translation section with improved UI
     if st.session_state.original_obituary is not None:
@@ -176,6 +204,7 @@ def main():
             
 
         if st.button("Traduire", use_container_width=True):
+            
             with st.spinner("Traduction en cours..."):
                 translated = translator.translate_text(
                         st.session_state.edited_obituary, 
