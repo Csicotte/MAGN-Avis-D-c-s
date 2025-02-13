@@ -149,12 +149,11 @@ def main():
     # Form for collecting information
     with st.form("obituary_form"):
         gender = st.selectbox(
-            "Genre",
+            "Titre",
             options=[
                 "M.",        # Monsieur
                 "Mme",       # Madame
-            ],
-            help="Sélectionnez le style d'écriture pour l'avis de décès"
+            ]
         )
         name = st.text_input("Nom complet du sujet")
         age = st.number_input("Âge", min_value=0, max_value=120)
