@@ -148,6 +148,14 @@ def main():
 
     # Form for collecting information
     with st.form("obituary_form"):
+        gender = st.selectbox(
+            "Genre",
+            options=[
+                "M.",        # Monsieur
+                "Mme",       # Madame
+            ],
+            help="Sélectionnez le style d'écriture pour l'avis de décès"
+        )
         name = st.text_input("Nom complet du sujet")
         age = st.number_input("Âge", min_value=0, max_value=120)
         date_of_death = st.date_input("Date du décès")
@@ -156,11 +164,26 @@ def main():
         interests = st.text_area("Intérêts et passions")
         profession = st.text_input("Profession")
         date_of_ceremonie = st.date_input("Date de la cérémonie")
+        
+        # Add tone selection
+        tone = st.selectbox(
+            "Choisir le ton de l'avis",
+            options=[
+                "Formel et respectueux",
+                "Chaleureux et empathique",
+                "Traditionnel",
+                "Narratif"
+            ],
+            help="Sélectionnez le style d'écriture pour l'avis de décès"
+        )
+        notes = st.text_area("Notes supplémentaires")
+
         submit_button = st.form_submit_button("Générer l'avis de décès")
 
     if submit_button:
         # Prepare info dictionary
         st.session_state.info_dict = {
+            'title': gender,
             'name': name,
             'age': age,
             'date_of_death': date_of_death.strftime("%d/%m/%Y"),
@@ -168,8 +191,11 @@ def main():
             'grandchildren': grandchildren,
             'interests': interests,
             'profession': profession,
-            "date_of_ceremonie": date_of_ceremonie
+            'date_of_ceremonie': date_of_ceremonie,
+            'tone': tone, 
+            'notes': notes
         }
+
 
         # Generate obituary
         with st.spinner("Génération de l'avis de décès..."):
